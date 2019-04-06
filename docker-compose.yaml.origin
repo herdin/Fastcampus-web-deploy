@@ -6,9 +6,6 @@ services:
     image: traefik:latest
     command: 
       - --web
-      - --docker
-      - --docker.swarmmode
-      - --docker.watch
     ports:
       - 80:80
       - 8080:8080
@@ -52,7 +49,7 @@ services:
         constraints: [node.role==manager]
 
   web:
-    image: 081582853021.dkr.ecr.ap-northeast-2.amazonaws.com/herdin-ecr:latest
+    image: 322749112518.dkr.ecr.ap-northeast-2.amazonaws.com/web-repo:latest
     networks: 
       - external
     deploy:
@@ -60,9 +57,9 @@ services:
       labels:
         - "traefik.port=80"
         - "traefik.enable=true"
-        - "traefik.docker.network=external"
+        - "traefik.docker.network=fastcampus_external"
         - "traefik.backend=web"
-        - "traefik.frontend.rule=Host:web.anmani.link"
+        - "traefik.frontend.rule=Host:web.local.dev"
 
   counter:
     image: subicura/counter:latest
@@ -76,9 +73,9 @@ services:
       labels:
         - "traefik.port=4567"
         - "traefik.enable=true"
-        - "traefik.docker.network=external"
+        - "traefik.docker.network=fastcampus_external"
         - "traefik.backend=counter"
-        - "traefik.frontend.rule=Host:counter.anmani.link"
+        - "traefik.frontend.rule=Host:counter.local.dev"
 
   redis:
     image: redis:latest
